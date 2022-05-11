@@ -123,6 +123,21 @@ int buscaPersonaje(objeto_t **tablero, int numFilas, int numColumnas) {
     return ex;
 }
 
+void iniciaTableroConDatos(objeto_t **tablero, int numFilas, int numColumnas, int numObjetos, char **datos) {
+    for (int i = 0; i < numFilas; i++) {
+        for (int j = 0; j < numColumnas; j++) {
+            tablero[i][j].active = 0;
+        }
+    }
+    for (int i = 0; i < numObjetos; i++) {
+        objeto_t objeto1 = CrearObjetoConDatos(datos[i]);
+        if (objeto1.y < 0 || objeto1.y > numFilas || objeto1.x < 0 || objeto1.x > numColumnas){
+            printf("objeto fuera de tablero");
+        }else{
+            tablero[objeto1.y][objeto1.x] = objeto1;
+        }
+    }
+}
 
 void dibujaTablero(objeto_t **tablero, int numFilas, int numColumnas) {
     for (int i = 0; i < numFilas; i++) {

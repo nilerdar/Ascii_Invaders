@@ -42,8 +42,10 @@ void mueveEnemigo(objeto_t *objeto, int numFilas, int numColumnas) {
 
 enemigo_t CrearEnemigoConDatos(int hp, int score,movimiento_t* movs){
     enemigo_t enemigo_1;
+
     enemigo_1.hp=hp;
     enemigo_1.score=score;
     enemigo_1.mov=movs;
+
     return enemigo_1;
 }

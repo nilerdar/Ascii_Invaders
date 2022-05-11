@@ -30,7 +30,7 @@ typedef struct movimiento_t{
 typedef struct enemigo_t{
     int hp;
     int score;
-    movimiento_t mov[4];
+    movimiento_t *mov;
     int tam;
     int pos;
 }enemigo_t;

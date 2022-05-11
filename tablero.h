@@ -10,6 +10,7 @@ void dibujaTablero(objeto_t **tablero, int numFilas, int numColumnas);
 objeto_t** reservaTablero(int numFilas, int numColumnas);
 void actualizaTablero(objeto_t** tablero, int numFilas, int numColumnas);
 int buscaPersonaje(objeto_t** tablero, int numFilas, int numColumnas);
+void iniciaTableroConDatos(objeto_t** tablero, int numFilas, int numColumnas, int numObjetos, char** datos);
 
 #endif
 
