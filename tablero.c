@@ -129,9 +129,9 @@ void iniciaTableroConDatos(objeto_t **tablero, int numFilas, int numColumnas, in
             tablero[i][j].active = 0;
         }
     }
-    for (int i = 0; i < numObjetos; i++) {
+    for (int i = 1; i < numObjetos; i++) {
         objeto_t objeto1 = CrearObjetoConDatos(datos[i]);
-        if (objeto1.y < 0 || objeto1.y > numFilas || objeto1.x < 0 || objeto1.x > numColumnas){
+        if (objeto1.y < 0 || objeto1.y >= numFilas || objeto1.x < 0 || objeto1.x >= numColumnas){
             printf("objeto fuera de tablero");
         }else{
             tablero[objeto1.y][objeto1.x] = objeto1;

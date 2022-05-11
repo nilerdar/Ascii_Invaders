@@ -59,74 +59,112 @@ tipoObjeto_e dameTipo(char *strTipo) {
 }
 
 objeto_t CrearObjetoConDatos(char *cadena) {
-    int posX = 0, posY = 0, hp = 0, score = 0, dmg = 0, x = 0, y = 0;
-    char sprite = '\0';
+    int posX = 0, posY = 0, hp = 0, score = 0, dmg = 0, x = 0, y = 0, offsetX = 0, offsetY = 0;
+    char sprite;
     direccion_e direccionE = desc;
     tipoObjeto_e tipoObjetoE;
     objeto_t objeto;
-
+    movimiento_t *mov;
+    int *Xs = calloc(1, sizeof(int));
+    int *Ys = calloc(1, sizeof(int));
+    int i = 0;
     char *cadena2 = (char *) calloc(strlen(cadena) + 1, sizeof(char));
-    char *aux = NULL, *aux2 = NULL, *aux3 = NULL;
+    char *cadena3 = (char *) calloc(strlen(cadena) + 1, sizeof(char));
+    char *aux = NULL, *aux2 = NULL, *aux3 = NULL, *aux4 = NULL;
     strcpy(cadena2, cadena);
+    strcpy(cadena3, cadena);
     if (strcmp(strtok(cadena2, "["), "objeto") == 0) {
-        while ((aux2 = strtok(NULL, ","))) {
-            aux = strtok(NULL, "=");
-            if (!strcmp(aux, "movimientos")) {
-                aux = aux2;
-                aux = strtok(aux, "=");
-                aux2 = strtok(NULL, "=");
-            }
+        while ((aux = strtok(NULL, "="))) {
+            aux2 = strtok(NULL, ",");
             if (strstr(aux2, "]"))aux2 = strtok(aux2, "]");
-            if (!strcmp(aux, "posX",4)) {
+            if (strcmp(aux, "posX") == 0) {
                 posX = strtol(aux2, NULL, 10);
             }
-            if (!strncmp(aux, "posY",4)) {
+            if (strcmp(aux, "posY") == 0) {
                 posY = strtol(aux2, NULL, 10);
             }
-            if (!strncmp(aux, "vida",4)) {
+            if (strcmp(aux, "vida") == 0) {
                 hp = strtol(aux2, NULL, 10);
             }
-            if (!strcmp(aux, "puntuacion")) {
+            if (strcmp(aux, "puntuacion") == 0) {
                 score = strtol(aux2, NULL, 10);
             }
-            if (!strcmp(aux, "danio")) {
+            if (strcmp(aux, "danio") == 0) {
                 dmg = strtol(aux2, NULL, 10);
             }
-            if (!strcmp(aux, "x")) {
-                x = strtol(aux2, NULL, 10);
-            }
-            if (!strcmp(aux, "y")) {
-                y = strtol(aux2, NULL, 10);
-            }
-            if (!strcmp(aux, "sprite")) {
+            if (strcmp(aux, "sprite") == 0) {
                 sprite = aux2[0];
             }
-            if (!strcmp(aux, "direccion")) {
+            if (strcmp(aux, "direccion") == 0) {
                 direccionE = dameDireccion(aux2);
             }
-            if (!strcmp(aux, "tipo")) {
+            if (strcmp(aux, "tipo") == 0) {
                 tipoObjetoE = dameTipo(aux2);
             }
-            printf("%d %d %c\n", posX, posY, sprite);
-            printf("%d %d \n", x, y);
         }
     } else {
-        printf("Error");
+        printf("Error\n");
     }
+    aux3 = strtok(cadena3, "]");
+    aux3 = strtok(aux3, "[");
+    aux3 = strtok(NULL, "[");
+    aux3 = strtok(aux3, ",");
+    int j = 0;
+    char *tipo, *valor;
+    while (aux3 != NULL) {
+        aux3 = strtok(NULL, ",");
+        if (j == 1 && aux3 != NULL) {
+            valor = aux3;
+            if (strcmp(tipo, "x") == 0) {
+                x = strtol(valor, NULL, 10);
+                Xs = realloc(Xs, sizeof(int) * offsetX + 1);
+                Xs[offsetX] = x;
+                offsetX++;
+            }
+            if (strcmp(tipo, "y") == 0) {
+                y = strtol(valor, NULL, 10);
+                Ys = realloc(Ys, sizeof(int) * offsetY + 1);
+                Ys[offsetY] = y;
+                offsetY++;
+            }
+        }
+        aux3 = strtok(NULL, "=");
+        if (j == 1 && aux3 != NULL) {
+            tipo = aux3;
+        }
+        if (aux3 != NULL && strcmp(aux3, "movimientos") == 0) {
+            j = 1;
+            aux3 = strtok(NULL, "=");
+            tipo = aux3;
+        }
+    }
+
+    mov = calloc(offsetX, sizeof(movimiento_t) * offsetX);
+    for (int j = 0; j < offsetX; j++) {
+        mov[j].x = Xs[j];
+        mov[j].y = Ys[j];
+        printf("%d %d\n", mov[j].x, mov[j].y);
+    }
+
     objeto.x = posX;
     objeto.y = posY;
     objeto.sprite = sprite;
     objeto.tipo = tipoObjetoE;
+    objeto.active=1;
     switch (objeto.tipo) {
         case misil:
             objeto.misil = CrearMisilConDatos(dmg, direccionE);
             break;
         case enemigo:
-            objeto.enemigo = CrearEnemigoConDatos(hp, score, movs);
+            objeto.enemigo = CrearEnemigoConDatos(hp, score, mov);
             break;
         case personaje:
             objeto.personaje = CrearPersonajePrincipalConDatos(hp, score);
             break;
     }
+    free(cadena2);
+    free(cadena3);
+    free(Xs);
+    free(Ys);
     return objeto;
 }

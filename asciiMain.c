@@ -9,7 +9,7 @@
 // Programa principal
 
 int main(int argc, char **argv) {
-    /*int numFilas = 0;
+    int numFilas = 0;
     int numColumnas = 0;
     printf("Introduzca el tamaño del tablero, filas:\n");
     scanf("%d", &numFilas);
@@ -26,8 +26,7 @@ int main(int argc, char **argv) {
         free(tablero[i]);
     }
     free(tablero);
-    printf("Fin del juego\n");*/
-    CrearObjetoConDatos(argv[1]);
+    printf("Fin del juego\n");
     return 0;
 }
 
