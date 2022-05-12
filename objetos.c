@@ -143,7 +143,6 @@ objeto_t CrearObjetoConDatos(char *cadena) {
     for (int j = 0; j < offsetX; j++) {
         mov[j].x = Xs[j];
         mov[j].y = Ys[j];
-        printf("%d %d\n", mov[j].x, mov[j].y);
     }
 
     objeto.x = posX;

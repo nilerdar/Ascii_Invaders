@@ -11,7 +11,7 @@ misil_t CrearMisil(){
 }
 
 void mueveMisil (objeto_t* objeto, int numFilas, int numColumnas) {
-    if (objeto->misil.direccion==asc){
+    if (objeto->misil.direccion==desc){
         objeto->y++;
     } else{
         objeto->y--;

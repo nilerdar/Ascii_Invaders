@@ -46,6 +46,7 @@ enemigo_t CrearEnemigoConDatos(int hp, int score,movimiento_t* movs){
     enemigo_1.hp=hp;
     enemigo_1.score=score;
     enemigo_1.mov=movs;
-
+    enemigo_1.pos=0;
+    enemigo_1.tam=4;
     return enemigo_1;
 }
